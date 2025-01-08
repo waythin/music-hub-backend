@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\SessionController;
+use App\Http\Controllers\EnrollmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +18,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+
+    
+    // post submit 
+    Route::post('post/submit', [PostController::class, 'store']);
+    Route::get('post/list', [PostController::class, 'index']);
+
+
+    // Enrollments
+    Route::post('enroll/post', [EnrollmentController::class, 'enroll']);
+    Route::patch('enroll/status/{id}', [EnrollmentController::class, 'updateEnrollStatus']);
+
+// for instructors
+    Route::get('enrollments', [EnrollmentController::class, 'listStudents']);
+
+    // Sessions
+    Route::resource('sessions', SessionController::class)->only(['index', 'store']);
 });
