@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\InstrumentTeacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -24,6 +25,11 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+        ]);
+
+        InstrumentTeacher::create([
+            'instrument_id' => $request->instrument_id,
+            'instructor_id' => $user->id,
         ]);
 
         return response()->json(['user' => $user, 'token' => $user->createToken('api_token')->plainTextToken]);

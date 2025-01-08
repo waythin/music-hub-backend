@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
 
         Instrument::create([
             'name'                  => 'guitar',
-
            
         ]);
         Instrument::create([
