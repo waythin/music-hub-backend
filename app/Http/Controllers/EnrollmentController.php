@@ -61,8 +61,11 @@ class EnrollmentController extends Controller
     
     public function listStudents()
     {
-        $user = Auth::guard('api')->user()->id;
-        $data = Enrollment::where('')->get();
-        return response()->json($students);
+        $user = Auth::guard('api')->user();
+        $data = Post::with(['enrollment' =>function($query){
+            $query->with('student');
+        }])->where('instructor_id', $user->id)->get();
+        // $data = Enrollment::with('post', 'student')->where('instructor_id' , $user->id)->get();
+        return response()->json($data);
     }
 }

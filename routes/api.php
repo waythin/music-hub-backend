@@ -36,12 +36,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('post/list', [PostController::class, 'index']);
 
 
-    // Enrollments
+    // Enroll by students 
     Route::post('enroll/post', [EnrollmentController::class, 'enroll']);
-    Route::patch('enroll/status/{id}', [EnrollmentController::class, 'updateEnrollStatus']);
 
-// for instructors
+    // instructor change the status
+    Route::patch('enroll/status/{id}', [EnrollmentController::class, 'updateEnrollStatus']);
+    // enrolled student list 
     Route::get('enrollments', [EnrollmentController::class, 'listStudents']);
+    
 
     // Sessions
     Route::resource('sessions', SessionController::class)->only(['index', 'store']);
