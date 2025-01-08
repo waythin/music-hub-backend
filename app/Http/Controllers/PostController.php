@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
     public function index()
     {
-        return Post::with('instrument')->get();
+        return Post::with('instrument')->where('instructor_id', Auth::guard('api')->user()->id )->get();
     }
 
     public function store(Request $request)
